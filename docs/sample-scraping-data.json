@@ -1,0 +1,32 @@
+{
+    "product_id": 563,
+    "product_name": "",
+    "price": {
+        "currency": "£",
+        "retail_price": 2.34,
+        "selling_price": 2.45
+    },
+    "ingredients": "lorem lorem ipsum lorem lorem lorem",
+    "nutrients":{
+        "main_nutrients":{
+            "carborhdrate": "30mg",
+            "fat": "4g",
+            "saturated fat": "3g"
+        },
+        "minerals":{
+            "calcium": "",
+            "iron": ""
+        },
+        "vitamins":{
+            
+        }
+    },
+    "customer_reviews":[],
+    "customer_rating": 4.8,
+    "product_link": "http://...........",
+    "plant-based": true,
+    "meat-alternative": true,
+    "meat-taste": false,
+    "meat-look": true,
+    "counter-part-product" : "//TODO"
+}

@@ -1,0 +1,19 @@
+{
+    "meat":[
+        "beef",
+        "mince",
+        "chicken",
+        "steak",
+        "bacon",
+        "fish",
+        "salmon"
+    ],
+    "dairy":[
+        "cheese",
+        "milk",
+        "youghurt"
+    ],
+    "plant-based":[
+        
+    ]
+}

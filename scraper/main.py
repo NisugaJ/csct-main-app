@@ -1,16 +1,42 @@
-# This is a sample Python script.
+import json
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from models.Product import Product
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Example usage:
+    product_data = {
+        "product_id": "sdW76wqygd",
+        "product_name": "",
+        "price": {
+            "currency": "£",
+            "retail_price": 2.34,
+            "selling_price": 2.45
+        },
+        "ingredients": "lorem lorem ipsum lorem lorem lorem",
+        "nutrients": {
+            "main_nutrients": [
+                {
+                    "name": "carbohydrate",
+                    "value": 4,
+                    "value_unit": "mg",
+                    "portion": 100,
+                    "portion_unit": "g"
+                }
+            ]
+        },
+        "customer_reviews": [],
+        "customer_rating": 4.8,
+        "product_link": "http://...........",
+        "plant_based": True,
+        "meat_alternative": True,
+        "meat_taste": False,
+        "meat_look": True,
+        "counterpart_products": ["w3r@eqa", "asd2rqe3"]
+    }
+
+    product_instance = Product.schema().loads(json.dumps(product_data))
+    print(product_instance)
+
+

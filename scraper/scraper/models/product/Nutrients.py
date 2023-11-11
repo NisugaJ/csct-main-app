@@ -1,6 +1,6 @@
 from mongoengine import ListField,  EmbeddedDocument, EmbeddedDocumentField
 
-from scraper.src.models.product.Nutrient import Nutrient
+from scraper.models.product.Nutrient import Nutrient
 
 class Nutrients(EmbeddedDocument):
     main_nutrients = ListField(EmbeddedDocumentField(Nutrient))

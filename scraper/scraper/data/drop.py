@@ -1,6 +1,5 @@
-from scraper.src.db.connect import connect_to_db
-from scraper.src.models.scraping.ListPageMeta import ListPageMeta
-from scraper.src.models.scraping.SupermarketMeta import SuperMarketMeta
+from scraper.db.connect import connect_to_db
+from scraper.models.scraping.SupermarketMeta import SuperMarketMeta
 from dotenv import load_dotenv
 
 load_dotenv()

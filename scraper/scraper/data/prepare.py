@@ -1,9 +1,7 @@
-from itertools import product
-
 from bson import ObjectId
 
-from scraper.src.models.scraping.ListPageMeta import ListPageMeta
-from scraper.src.models.scraping.SupermarketMeta import SuperMarketMeta
+from scraper.models.scraping.ListPageMeta import ListPageMeta
+from scraper.models.scraping.SupermarketMeta import SuperMarketMeta
 
 
 def get_scraping_meta_data():

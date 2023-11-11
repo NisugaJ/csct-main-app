@@ -1,7 +1,7 @@
 from mongoengine import Document, StringField, FloatField, BooleanField, ListField, ReferenceField,\
     EmbeddedDocumentField
-from scraper.src.models.product.Nutrients import Nutrients
-from scraper.src.models.product.Price import Price
+from scraper.models.product.Nutrients import Nutrients
+from scraper.models.product.Price import Price
 
 class Product(Document):
     product_id = StringField(required=True, unique=True)

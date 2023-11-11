@@ -1,8 +1,6 @@
-import os
-
 from mongoengine import StringField, ListField, ReferenceField, EmbeddedDocument, ObjectIdField
 
-from scraper.src.models.product.Product import Product
+from scraper.models.product.Product import Product
 
 
 class ListPageMeta(EmbeddedDocument):

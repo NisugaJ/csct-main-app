@@ -2,10 +2,10 @@ import json
 import unittest
 
 
-from scraper.src.models.product.Nutrient import Nutrient
-from scraper.src.models.product.Nutrients import Nutrients
-from scraper.src.models.product.Price import Price
-from scraper.src.models.product.Product import Product
+from scraper.models.product.Nutrient import Nutrient
+from scraper.models.product.Nutrients import Nutrients
+from scraper.models.product.Price import Price
+from scraper.models.product.Product import Product
 
 
 class ProductSchemaTest(unittest.TestCase):

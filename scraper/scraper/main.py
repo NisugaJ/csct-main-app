@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 
-from scraper.src.db.connect import connect_to_db
-from scraper.src.functions.initialize import initialize
+from scraper.db.connect import connect_to_db
+from scraper.helpers.initialize import initialize
 
 load_dotenv()
 

@@ -1,8 +1,6 @@
-from mongoengine import NotUniqueError, BulkWriteError
-from pymongo.errors import DuplicateKeyError
+from mongoengine import NotUniqueError
 
-from scraper.src.data.prepare import get_scraping_meta_data
-from scraper.src.models.scraping.ListPageMeta import ListPageMeta
+from scraper.data.prepare import get_scraping_meta_data
 
 
 def initialize():

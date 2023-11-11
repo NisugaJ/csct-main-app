@@ -12,6 +12,8 @@ python-dotenv = "^1.0.0"
 mongoengine = "^0.27.0"
 scrapy = "^2.11.0"
 scrapy-playwright = "^0.0.33"
+fastapi = "^0.104.1"
+uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
 
 
 [build-system]

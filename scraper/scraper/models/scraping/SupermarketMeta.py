@@ -1,5 +1,5 @@
-from mongoengine import Document, ListField, StringField, ReferenceField, EmbeddedDocumentField, ObjectIdField
-from scraper.src.models.scraping.ListPageMeta import ListPageMeta
+from mongoengine import Document, ListField, StringField, EmbeddedDocumentField, ObjectIdField
+from scraper.models.scraping.ListPageMeta import ListPageMeta
 
 class SuperMarketMeta(Document):
     _id = ObjectIdField(required=True, primary_key=True)

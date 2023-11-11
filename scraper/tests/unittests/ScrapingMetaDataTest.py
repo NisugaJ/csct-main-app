@@ -1,9 +1,9 @@
 import unittest
 from bson import ObjectId
 
-from scraper.src.data.prepare import get_scraping_meta_data
-from scraper.src.models.scraping.ListPageMeta import ListPageMeta
-from scraper.src.models.scraping.SupermarketMeta import SuperMarketMeta
+from scraper.data import get_scraping_meta_data
+from scraper.models import ListPageMeta
+from scraper.models.scraping.SupermarketMeta import SuperMarketMeta
 
 
 class TestGetScrapingMetaData(

@@ -1,10 +1,11 @@
 import scrapy
 from playwright.async_api import async_playwright
 
-class QuotesSpider(
+
+class AsdaSpider(
     scrapy.Spider
     ):
-    name = "playwright"
+    name = "asda-spider"
     start_urls = [
         "data:,"
         # "https://quotes.toscrape.com/tag/humor/",
@@ -19,12 +20,7 @@ class QuotesSpider(
                 "https://groceries.asda.com/search/meat-poultry-fish/products?page=1"
             )
 
-            open(
-                "meat-poultry-fish.html",
-                "w"
-                ).write(
-                await page.content()
-                )
+            page_content = await page.content()
 
             # for quote in page.content().("div.co-product"):
             #     yield {

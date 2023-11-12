@@ -98,3 +98,5 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
+LOG_FILE = "supermarketscraper.log"
+LOG_FILE_APPEND = False

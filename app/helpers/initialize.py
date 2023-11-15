@@ -1,6 +1,6 @@
 from mongoengine import NotUniqueError
 
-from supermarketscraper.data.prepare import get_scraping_meta_data
+from app.data.prepare import get_scraping_meta_data
 
 
 def initialize():

@@ -25,13 +25,14 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 3
+CONCURRENT_REQUESTS = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -98,5 +99,10 @@ DOWNLOAD_HANDLERS = {
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
-LOG_FILE = "supermarketscraper.log"
-LOG_FILE_APPEND = False
+# LOG_FILE = "supermarketscraper.log"
+# LOG_FILE_APPEND = False
+
+# Playwright
+PLAYWRIGHT_LAUNCH_OPTIONS={
+            "timeout": 200 * 1000,  # 50 seconds
+}

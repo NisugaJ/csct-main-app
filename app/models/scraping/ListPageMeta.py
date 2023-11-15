@@ -1,6 +1,6 @@
 from mongoengine import StringField, ListField, ReferenceField, EmbeddedDocument, ObjectIdField
 
-from supermarketscraper.models.product.Product import Product
+from app.models.product.Product import Product
 
 
 class ListPageMeta(EmbeddedDocument):

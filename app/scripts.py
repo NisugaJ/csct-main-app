@@ -4,13 +4,14 @@ from scrapy.utils.project import get_project_settings
 from scrapy.utils.reactor import install_reactor
 from twisted.internet import reactor
 
-from supermarketscraper.supermarketscraper.spiders.scraper import AsdaSpider
+from app.supermarketscraper.spiders.scraper import AsdaSpider
+
 
 def start_process():
     install_reactor(
         'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
     )
-    pprint([{'key': i, 'value': get_project_settings().copy_to_dict()[i]} for i in get_project_settings().copy_to_dict()])
+    # pprint([{'key': i, 'value': get_project_settings().copy_to_dict()[i]} for i in get_project_settings().copy_to_dict()])
     process = CrawlerProcess(
         get_project_settings()
     )
@@ -45,4 +46,3 @@ def start_runner():
 def start_crawler_process():
     start_process()
 
-start_crawler_process()

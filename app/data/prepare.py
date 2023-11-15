@@ -1,7 +1,7 @@
 from bson import ObjectId
 
-from supermarketscraper.models.scraping.ListPageMeta import ListPageMeta
-from supermarketscraper.models.scraping.SupermarketMeta import SuperMarketMeta
+from app.models.scraping.ListPageMeta import ListPageMeta
+from app.models.scraping.SupermarketMeta import SuperMarketMeta
 
 
 def get_scraping_meta_data():

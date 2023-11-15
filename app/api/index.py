@@ -1,4 +1,4 @@
-from supermarketscraper.main import app
+from app.main import app
 
 
 @app.get("/test")

@@ -1,6 +1,8 @@
-from supermarketscraper.db.connect import connect_to_db
-from supermarketscraper.models.scraping.SupermarketMeta import SuperMarketMeta
+
 from dotenv import load_dotenv
+
+from app.db.connect import connect_to_db
+from app.models.scraping.SupermarketMeta import SuperMarketMeta
 
 load_dotenv()
 

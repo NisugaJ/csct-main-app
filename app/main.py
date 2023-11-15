@@ -1,19 +1,16 @@
 import uvicorn
 from dotenv import load_dotenv
-from supermarketscraper.db.connect import connect_to_db
-from supermarketscraper.scripts import start_crawler_process
-from supermarketscraper.helpers.initialize import initialize
 from fastapi import FastAPI
+
+from app.db.connect import connect_to_db
+from app.helpers.initialize import initialize
+from app.scripts import start_crawler_process
 
 load_dotenv()
 
 # Create the FastAPI app
 app = FastAPI()
 
-
-from fastapi import FastAPI
-
-app = FastAPI()
 
 @app.get("/")
 def read_root():
@@ -36,6 +33,6 @@ if __name__ == '__main__':
     start_crawler_process()
 
     # Run the app
-    uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
+    uvicorn.run("app.main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
 
 

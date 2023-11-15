@@ -5,7 +5,7 @@ FROM ubuntu:jammy
 LABEL maintainer="Nisuga Jayawardana <nisuga.rockwell@gmail.com>"
 
 # Set environment variables for configuration
-ENV PYTHON_VERSION=3.10 \
+ENV PYTHON_VERSION=3.11 \
     POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
@@ -23,7 +23,7 @@ RUN pip install poetry==1.7.0 scrapy==2.11.0 scrapy-playwright==0.0.33
 RUN playwright install
 RUN playwright install-deps
 
-WORKDIR /scraper
+WORKDIR /main_app
 
 COPY pyproject.toml poetry.lock ./
 

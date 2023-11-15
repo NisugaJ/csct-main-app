@@ -1,5 +1,7 @@
 from mongoengine import Document, ListField, StringField, EmbeddedDocumentField, ObjectIdField
-from supermarketscraper.models.scraping.ListPageMeta import ListPageMeta
+
+from app.models.scraping.ListPageMeta import ListPageMeta
+
 
 class SuperMarketMeta(Document):
     _id = ObjectIdField(required=True, primary_key=True)

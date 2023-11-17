@@ -9,8 +9,8 @@
 
 BOT_NAME = "supermarketscraper"
 
-SPIDER_MODULES = ["supermarketscraper.spiders"]
-NEWSPIDER_MODULE = "supermarketscraper.spiders"
+SPIDER_MODULES = ["supermarketscraper.supermarketscraper.spiders"]
+NEWSPIDER_MODULE = "supermarketscraper.supermarketscraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -90,7 +90,6 @@ COOKIES_ENABLED = False
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
-TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Playwright
@@ -98,9 +97,11 @@ DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
     "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
-# LOG_FILE = "supermarketscraper.log"
-# LOG_FILE_APPEND = False
+
+LOG_FILE = "/main-app/supermarketscraper/logs/supermarketscraper.log"
+LOG_FILE_APPEND = False
 
 # Playwright
 PLAYWRIGHT_LAUNCH_OPTIONS={

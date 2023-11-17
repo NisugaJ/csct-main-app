@@ -23,7 +23,7 @@ RUN pip install poetry==1.7.0 scrapy==2.11.0 scrapy-playwright==0.0.33
 RUN playwright install
 RUN playwright install-deps
 
-WORKDIR /main_app
+WORKDIR /main-app
 
 COPY pyproject.toml poetry.lock ./
 
@@ -35,6 +35,6 @@ RUN poetry install
 
 RUN touch README.md
 
-ENTRYPOINT ["poetry", "run", "python", "-m", "app.main"]
+ENTRYPOINT ["poetry", "run", "python", "-m", "main"]
 
 EXPOSE 5842

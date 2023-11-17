@@ -1,27 +1,25 @@
 import logging
+from datetime import datetime
 from pprint import pprint
 
 import scrapy
+from scrapy.utils.reactor import install_reactor
 from scrapy_playwright.page import PageMethod
 
 
 class AsdaSpider(scrapy.Spider):
     name = "asda-spider"
 
-    allowed_domains = ["groceries.asda.com"]
+    allowed_domains = ["asda.com"]
 
-    custom_settings = dict(
-        PLAYWRIGHT_LAUNCH_OPTIONS={
-            "timeout": 200 * 1000,  # 50 seconds
-        }
-    )
+
 
     def start_requests(self):
         # GET request
         yield scrapy.Request(
             "https://groceries.asda.com/search/meat-poultry-fish/products?page=1",
             headers={
-               "User-Agent": None
+               "User-Agent": "None"
             },
             meta=dict(
                 playwright=True,
@@ -41,7 +39,7 @@ class AsdaSpider(scrapy.Spider):
                     # ),
                 ]
             ),
-            errback=self.errback
+            # errback=self.errback
         )
 
     async def parse(self, response):
@@ -53,14 +51,10 @@ class AsdaSpider(scrapy.Spider):
         )
 
         page = response.meta["playwright_page"]
-        await page.screenshot(path="example.png", full_page=True)
+        await page.screenshot(path=f"/main-app/app/public/images/example-.png", full_page=True)
         await page.close()
 
-
         for quote in response.css("div.co-product"):
-            logging.info(
-                "product::::: \n " + quote.text
-            )
             yield {
                 "product_link": quote.xpath(
                     "div[2]/div[1]/h3/a/text()"
@@ -74,7 +68,6 @@ class AsdaSpider(scrapy.Spider):
         # if next_page is not None:
         #     yield response.follow(next_page, self.parse)
 
-    async def errback(self, failure):
-        pprint(failure)
-        page = failure.request.meta["playwright_page"]
-        await page.close()
+    # async def errback(self, failure):
+    #     pprint(failure)
+    #     pprint(failure.request.meta)

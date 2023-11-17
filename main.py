@@ -1,10 +1,15 @@
+import os
+
 import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI
 
 from app.db.connect import connect_to_db
 from app.helpers.initialize import initialize
-from app.scripts import start_crawler_process
+from supermarketscraper.scraper import Scraper
+
+# import api
+from app.api import index
 
 load_dotenv()
 
@@ -30,9 +35,12 @@ if __name__ == '__main__':
     # Publish the schema
     initialize()
 
-    start_crawler_process()
+    # Run the supermarket scraper
+    if os.getenv("RUN_SUPERMARKET_SCRAPER") == "True":
+        scraper = Scraper()
+        scraper.run_spiders()
 
     # Run the app
-    uvicorn.run("app.main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
+    uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
 
 

@@ -1,7 +1,6 @@
 from mongoengine import StringField, FloatField, EmbeddedDocument
 
 
-class Price(EmbeddedDocument):
-    currency = StringField(required=True)
-    retail_price = FloatField(required=True)
+class PriceAndWeight(EmbeddedDocument):
     selling_price = FloatField(required=True)
+    weight = StringField(required=True)

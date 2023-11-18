@@ -1,14 +1,15 @@
+import scrapy
 from mongoengine import Document, StringField, FloatField, BooleanField, ListField, ReferenceField,\
     EmbeddedDocumentField
 
 from app.models.product.Nutrients import Nutrients
-from app.models.product.Price import Price
+from app.models.product.Price import  PriceAndWeight
 
 
 class Product(Document):
     product_id = StringField(required=True, unique=True)
     product_name = StringField(required=True)
-    price = EmbeddedDocumentField(Price)
+    price = EmbeddedDocumentField(PriceAndWeight)
     ingredients = StringField()
     nutrients = EmbeddedDocumentField(Nutrients)
     customer_reviews = ListField(StringField(null=False))

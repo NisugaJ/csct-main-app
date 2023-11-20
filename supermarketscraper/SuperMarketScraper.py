@@ -6,9 +6,8 @@ from scrapy.utils.reactor import install_reactor
 
 from supermarketscraper.supermarketscraper.spiders.AsdaSpider import AsdaSpider
 
+class SuperMarketScraper:
 
-
-class Scraper:
     def __init__(self, runner=False):
 
         # The path seen from root, i.e. from main.py

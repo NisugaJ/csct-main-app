@@ -6,6 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
 from pathlib import Path
 
 BOT_NAME = "supermarketscraper"
@@ -26,8 +27,9 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
-CONCURRENT_REQUESTS = 1
+DOWNLOAD_DELAY = 2
+CONCURRENT_REQUESTS = 4
+# DOWNLOAD_TIMEOUT=240
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -58,15 +60,15 @@ COOKIES_ENABLED = False
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    "scrapy.extensions.telnet.TelnetConsole": None,
-#}
+EXTENSIONS = {
+   "scrapy.extensions.closespider.CloseSpider": 100,
+}
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "supermarketscraper.pipelines.SupermarketscraperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "supermarketscraper.supermarketscraper.pipelines.SupermarketscraperPipeline": 100,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -77,7 +79,7 @@ AUTOTHROTTLE_START_DELAY = 5
 #AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
 # Enable showing throttling stats for every response received:
 AUTOTHROTTLE_DEBUG = False
 
@@ -93,6 +95,9 @@ AUTOTHROTTLE_DEBUG = False
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
 
+# Close when spider completed the given number of pages
+CLOSESPIDER_PAGECOUNT = 3
+
 # Playwright
 DOWNLOAD_HANDLERS = {
     "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
@@ -105,6 +110,15 @@ LOG_FILE = f"{Path.cwd()}/supermarketscraper/logs/supermarketscraper.log"
 LOG_FILE_APPEND = False
 
 # Playwright
-PLAYWRIGHT_LAUNCH_OPTIONS={
-  "timeout": 20 * 1000,  # 50 seconds
-}
+PLAYWRIGHT_LAUNCH_OPTIONS = dict(
+  proxy=dict(
+      server=f"{os.getenv('PROXY_HOST')}:{os.getenv('PROXY_PORT')}",
+      username=os.getenv("PROXY_USERNAME"),
+      password=os.getenv("PROXY_PASSWORD"),
+  )
+)
+
+PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = (
+    40 * 1000
+)
+

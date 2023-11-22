@@ -28,7 +28,7 @@ class SuperMarketScraper:
         if self.process:
             for spider in self.spiders:
                 self.process.crawl(spider)
-            self.process.start()  # the script will block here until the crawling is finished
+            self.process.start(stop_after_crawl=True)  # the script will block here until the crawling is finished
 
         else:
             print("Process not set")

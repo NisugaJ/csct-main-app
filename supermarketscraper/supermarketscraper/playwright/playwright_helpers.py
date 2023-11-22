@@ -17,5 +17,5 @@ import logging
 async def init_page(page, request):
     logging.info("Initializing playwright page")
     # Avoid loading images & videos
-    await page.route("**/*.{png,jpg,jpeg,.mp4}", lambda route: route.abort())
+    await page.route("**/*.{png,jpg,jpeg,mp4}", lambda route: route.abort())
 

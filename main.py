@@ -10,6 +10,9 @@ from app.db.connect import connect_to_db
 from app.helpers.initialize import initialize
 from scraper_script import start_scraper
 
+#### Import API routes
+from app.api import index
+#### Import API routes
 
 load_dotenv()
 
@@ -36,9 +39,9 @@ if __name__ == '__main__':
     initialize()
 
     if os.getenv("RUN_SUPERMARKET_SCRAPER") == "True":
-        print("Starting supermarket scraper as a daemon process...")
         multiprocessing.set_start_method("spawn")
         multiprocessing.Process(target=start_scraper).start()
+        print("Started supermarket scraper as a daemon process...")
 
     # Run the app
     uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")

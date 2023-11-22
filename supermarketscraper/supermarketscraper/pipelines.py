@@ -8,6 +8,7 @@ import logging
 import mongoengine
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from mongoengine import NotUniqueError
 
 from app.models.product.Product import Product
 
@@ -23,10 +24,17 @@ class SupermarketscraperPipeline:
 
         item_dict = ItemAdapter(item).asdict()
 
-        line = json.dumps(item_dict)
-        logging.info(line)
-
         product = Product(**item_dict)
-        product.save(validate=True)
+
+        try:
+            product.save(validate=True)
+            logging.info(f"Item {product.product_id} saved")
+        except NotUniqueError as e:
+            # Handle the duplicate key error
+            logging.error(
+                "Duplicate key error: " + str(
+                    e
+                    )
+                )
 
         return item

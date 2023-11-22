@@ -22,13 +22,13 @@ NEWSPIDER_MODULE = "supermarketscraper.supermarketscraper.spiders"
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 4
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 2
-CONCURRENT_REQUESTS = 4
+DOWNLOAD_DELAY = 3
+RANDOMIZE_DOWNLOAD_DELAY = True
 # DOWNLOAD_TIMEOUT=240
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -74,14 +74,14 @@ ITEM_PIPELINES = {
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 5
+# AUTOTHROTTLE_START_DELAY = 5
 # The maximum download delay to be set in case of high latencies
 #AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
-AUTOTHROTTLE_TARGET_CONCURRENCY = 3.0
+AUTOTHROTTLE_TARGET_CONCURRENCY = 4
 # Enable showing throttling stats for every response received:
-AUTOTHROTTLE_DEBUG = False
+AUTOTHROTTLE_DEBUG = True
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
@@ -96,7 +96,7 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Close when spider completed the given number of pages
-CLOSESPIDER_PAGECOUNT = 3
+CLOSESPIDER_PAGECOUNT = 6
 
 # Playwright
 DOWNLOAD_HANDLERS = {
@@ -119,6 +119,10 @@ PLAYWRIGHT_LAUNCH_OPTIONS = dict(
 )
 
 PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = (
-    40 * 1000
+    60 * 1000
+)
+
+PLAYWRIGHT_TIME_OUT = (
+    60 * 1000
 )
 

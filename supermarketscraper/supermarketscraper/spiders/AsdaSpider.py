@@ -1,9 +1,13 @@
+import datetime
+import hashlib
+import logging
+from datetime import datetime
+from random import Random
 
 import scrapy
 from scrapy_playwright.page import PageMethod
 
 from supermarketscraper.supermarketscraper.other_settings import DEFAULT_REQUEST_META
-
 
 
 class AsdaSpider(
@@ -17,12 +21,13 @@ class AsdaSpider(
 
     def start_requests(self):
         yield scrapy.Request(
-            f"{self.asda_base_url}/search/meat-poultry-fish/products?page=1",
-            headers={"User-Agent": "None"},
+            f"{self.asda_base_url}/search/meat-poultry-fish/products?page=2",
+            # headers={"User-Agent": "None"},
             meta=DEFAULT_REQUEST_META | dict(
                 playwright_page_methods=[PageMethod(
                     "wait_for_selector",
-                    "div.co-product"
+                    "div.co-product",
+                    timeout=40000
                 ),  # PageMethod(
                     #     "evaluate",
                     #     "window.scrollBy(0, document.body.scrollHeight)"
@@ -37,9 +42,10 @@ class AsdaSpider(
         )
 
     async def parse(self, response):
+        logging.info(f"headers: {response.request.headers}")
 
         page = response.meta["playwright_page"]
-        # await page.screenshot(path=f"/main-app/app/public/images/example-.png", full_page=True)
+        await page.screenshot(path=f"/main-app/app/public/images/example-{hashlib.md5(datetime.now())}.png", full_page=True)
         await page.close()
 
         for link in response.css("a.co-product__anchor::attr(href)"):
@@ -47,11 +53,12 @@ class AsdaSpider(
 
             yield scrapy.Request(
                 f"{self.asda_base_url}{link.get()}",
-                headers={"User-Agent": "None"},
+                # headers={"User-Agent": "None"},
                 meta=DEFAULT_REQUEST_META | dict(
                     playwright_page_methods=[PageMethod(
                         "wait_for_selector",
-                        "div.product-detail-page__main-cntr"
+                        "div.product-detail-page__main-cntr",
+                        timeout=40000
                     )]
                 ),
                 callback=self.product_parse
@@ -93,9 +100,9 @@ class AsdaSpider(
                 "selling_price": response.css("div.pdp-main-details__price-container strong::text").get()[1:] or "",
                 "weight": response.css("div.pdp-main-details__weight::text").get().strip() or "",
             },
-            "ingredients": "".join(response.xpath("(//div[@class = 'pdp-description-reviews__product-details-content'])[5]/text()").getall()) or "",
-            "nutrients": nutrients or "",
-            "customer_rating": float(response.xpath("//div[contains(@class, 'rating-stars__stars') and contains(@class, 'rating-stars__stars--top')]/@style").get().rsplit(": ", 1)[1].rsplit("%", 1)[0])/20 or "",
+            "ingredients": "".join(response.xpath("(//div[@class = 'pdp-description-reviews__product-details-content'])[5]/text()").getall()) or None,
+            "nutrients": nutrients or None,
+            "customer_rating": float(response.xpath("//div[contains(@class, 'rating-stars__stars') and contains(@class, 'rating-stars__stars--top')]/@style").get().rsplit(": ", 1)[1].rsplit("%", 1)[0])/20 or None,
             "product_link": response.url,
             # "meat_alternative": False,
             # "meat_taste": False,

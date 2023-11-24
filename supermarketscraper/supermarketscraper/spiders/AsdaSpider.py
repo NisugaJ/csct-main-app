@@ -8,6 +8,7 @@ import scrapy
 from scrapy_playwright.page import PageMethod
 
 from supermarketscraper.supermarketscraper.other_settings import DEFAULT_REQUEST_META
+from utils.utils import get_a_unique_image_name, val
 
 
 class AsdaSpider(
@@ -21,7 +22,7 @@ class AsdaSpider(
 
     def start_requests(self):
         yield scrapy.Request(
-            f"{self.asda_base_url}/search/meat-poultry-fish/products?page=2",
+            f"{self.asda_base_url}/search/meat-poultry-fish/products?page=1",
             # headers={"User-Agent": "None"},
             meta=DEFAULT_REQUEST_META | dict(
                 playwright_page_methods=[PageMethod(
@@ -45,7 +46,7 @@ class AsdaSpider(
         logging.info(f"headers: {response.request.headers}")
 
         page = response.meta["playwright_page"]
-        await page.screenshot(path=f"/main-app/app/public/images/example-{hashlib.md5(datetime.now())}.png", full_page=True)
+        await page.screenshot(path=f"/main-app/app/public/images/{get_a_unique_image_name()}", full_page=True)
         await page.close()
 
         for link in response.css("a.co-product__anchor::attr(href)"):
@@ -76,7 +77,13 @@ class AsdaSpider(
         #     for request in self.search_page_request(f"{self.url_with_page_attr}{page_num}"):
         #         yield request
 
+
     def product_parse(self, response):
+        product_id = val(response.url.rsplit("/", 1)[1])
+
+        if len(response.css("div.pdp-main-details")) == 0:
+            logging.info(f"div.pdp-main-details is unavailable. Skipping the product: {product_id}")
+            return
 
         nutrient_rows = response.xpath("//div[contains(@class, 'pdp-description-reviews__nutrition-row') and contains(@class, 'pdp-description-reviews__nutrition-row--details')]")
         nutrients = []
@@ -93,16 +100,30 @@ class AsdaSpider(
             # 0'
             # "product_id": response.xpath("//div[@class = 'product-detail-page__zoomed-image-container']/div/picture/source/img/@src").get().split("dm/asdagroceries/")[1].split("_T1")[0],
 
-            "product_id": response.url.rsplit("/", 1)[1] or "",
-            "product_name": response.css("div.pdp-main-details div[data-auto-id='titleRating'] h1::text").get() or "",
+            "product_id": product_id,
+            "product_name": val(response.css("div.pdp-main-details div[data-auto-id='titleRating'] h1::text").get()),
 
             "price": {
-                "selling_price": response.css("div.pdp-main-details__price-container strong::text").get()[1:] or "",
-                "weight": response.css("div.pdp-main-details__weight::text").get().strip() or "",
+                "selling_price": val(response.css("div.pdp-main-details__price-container strong::text").get())[1:] or "#not-found#",
+                "weight": val(response.css("div.pdp-main-details__weight::text").get()).strip() or "#not-found#",
             },
-            "ingredients": "".join(response.xpath("(//div[@class = 'pdp-description-reviews__product-details-content'])[5]/text()").getall()) or None,
-            "nutrients": nutrients or None,
-            "customer_rating": float(response.xpath("//div[contains(@class, 'rating-stars__stars') and contains(@class, 'rating-stars__stars--top')]/@style").get().rsplit(": ", 1)[1].rsplit("%", 1)[0])/20 or None,
+            "ingredients": "".join(val(response.xpath("(//div[@class = 'pdp-description-reviews__product-details-content'])[5]/text()").getall())),
+            "nutrients": nutrients or [],
+            "customer_rating": val(
+                float(
+                    val(
+                        val(
+                            val(
+                                response.xpath("//div[contains(@class, 'rating-stars__stars') and contains(@class, 'rating-stars__stars--top')]/@style").get()
+                            )
+                            .rsplit(": ", 1)[1]
+                        )
+                        .rsplit("%", 1)[0],
+                        ""
+                    )
+                )/20,
+                -99
+            ),
             "product_link": response.url,
             # "meat_alternative": False,
             # "meat_taste": False,
@@ -110,6 +131,8 @@ class AsdaSpider(
             # "plant_based": False,
             # "dairy": False
         }
+
+
 
     def search_page_request(self, search_page_url):
         yield scrapy.Request(

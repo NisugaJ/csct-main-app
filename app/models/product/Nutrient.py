@@ -1,7 +1,7 @@
-from mongoengine import FloatField, StringField,  EnumField, Document
+from mongoengine import FloatField, StringField, EnumField, EmbeddedDocument
 
 
-class Nutrient(Document):
+class Nutrient(EmbeddedDocument):
 
     # e.g: carbohydrate
     name = StringField(required=False)

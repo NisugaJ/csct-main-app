@@ -27,7 +27,7 @@ class SupermarketscraperPipeline:
         product = Product(**item_dict)
 
         try:
-            product.update(validate=True, upsert=True)
+            product.save(validate=True)
             logging.info(f"Item {product.product_id} saved")
         except NotUniqueError as e:
             # Handle the duplicate key error

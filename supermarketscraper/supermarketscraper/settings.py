@@ -6,7 +6,6 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-import os
 from pathlib import Path
 
 BOT_NAME = "supermarketscraper"
@@ -100,7 +99,7 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 FEED_EXPORT_ENCODING = "utf-8"
 
 # Close when spider completed the given number of pages
-CLOSESPIDER_PAGECOUNT = 3
+# CLOSESPIDER_PAGECOUNT = 3
 
 # Playwright
 DOWNLOAD_HANDLERS = {
@@ -112,15 +111,6 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 LOG_FILE = f"{Path.cwd()}/supermarketscraper/logs/supermarketscraper.log"
 LOG_FILE_APPEND = False
-
-# Playwright
-PLAYWRIGHT_LAUNCH_OPTIONS = dict(
-  proxy=dict(
-      server=f"{os.getenv('PROXY_HOST')}:{os.getenv('PROXY_PORT')}",
-      username=os.getenv("PROXY_USERNAME"),
-      password=os.getenv("PROXY_PASSWORD"),
-  )
-)
 
 PLAYWRIGHT_DEFAULT_NAVIGATION_TIMEOUT = (
     60 * 1000

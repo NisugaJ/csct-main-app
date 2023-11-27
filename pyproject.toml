@@ -17,7 +17,9 @@ uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
 scrapy-fake-useragent = "^1.4.4"
 blinker = "^1.7.0"
 scrapy-proxies = "^0.4"
-
+transformers = "^4.35.2"
+datasets = "^2.15.0"
+evaluate = "^0.4.1"
 
 [build-system]
 requires = ["poetry-core"]

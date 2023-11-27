@@ -16,6 +16,7 @@ fastapi = "^0.104.1"
 uvicorn = {extras = ["standard"], version = "^0.24.0.post1"}
 scrapy-fake-useragent = "^1.4.4"
 blinker = "^1.7.0"
+scrapy-proxies = "^0.4"
 
 
 [build-system]

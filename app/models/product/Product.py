@@ -32,7 +32,7 @@ class Product(Document):
     ingredients = StringField()
     nutrients = EmbeddedDocumentListField(document_type=Nutrient)
     customer_rating = FloatField()
-    product_link = StringField(required=True, unique=True)
+    product_url = StringField(required=True, unique=True)
     product_type = EnumField(ProductType)
     counterpart_products = ListField(ReferenceField('self'))
 

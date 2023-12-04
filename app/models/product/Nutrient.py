@@ -1,4 +1,13 @@
+from enum import Enum
+
 from mongoengine import FloatField, StringField, EnumField, EmbeddedDocument
+
+class NutrientType(Enum):
+    MAIN = "MAIN"
+    VITAMIN = "VITAMIN"
+    MINERAL = "MINERAL"
+    OTHER = "OTHER"
+
 
 
 class Nutrient(EmbeddedDocument):
@@ -16,4 +25,4 @@ class Nutrient(EmbeddedDocument):
     portion_raw = StringField(required=True)  # e.g: '100g'
     portion_unit = StringField(required=False)  # e.g: g
 
-    category = EnumField(enum=['main', 'minerals', 'vitamins'], default='main')
+    category = EnumField(NutrientType, default=NutrientType.MAIN)

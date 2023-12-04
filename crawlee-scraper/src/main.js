@@ -2,18 +2,19 @@
 import { BrowserName, DeviceCategory, OperatingSystemsName, ProxyConfiguration, PuppeteerCrawler} from 'crawlee';
 import { router } from './routes.js';
 import pushFileToBlobStorage from './utils/azure-blob-storage.js';
-import fs from 'fs';
 import { configDotenv } from 'dotenv';
 import { env } from 'process';
+import { proxies } from '../proxy-list.js';
 
 configDotenv()
 
 const startUrls = ['https://groceries.asda.com/search/meat-poultry-fish/products?page=1'];
+
 const proxtUrlList = [
-    env.IP_ROYAL_PROXY_URL,
-].concat(
-    //JSON.parse(fs.readFileSync('proxy-list.json')).proxy_list
-)
+    // env.IP_ROYAL_PROXY_URL,
+    // ...proxies.free_proxy_list,
+    ...proxies.proxyscrape_list,
+]
 
 const crawler = new PuppeteerCrawler({
     // proxy
@@ -26,7 +27,7 @@ const crawler = new PuppeteerCrawler({
 
     // requests
     requestHandler: router,
-    maxRequestsPerCrawl: 20,
+    // maxRequestsPerCrawl: 20,
     retryOnBlocked: true,
     maxRequestRetries: 2,
 

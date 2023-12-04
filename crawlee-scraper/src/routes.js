@@ -4,7 +4,9 @@ export const router = createPuppeteerRouter();
 
 const productListItemSelector = 'div.co-item__title-container.co-item__title-container--rest-in-shelf > .co-product__title > .co-product__anchor'
 
-router.addDefaultHandler(async ({page, enqueueLinks, log }) => {
+router.addDefaultHandler(async ({page, enqueueLinks, log, proxyInfo }) => {
+    log.info(`proxy: ${JSON.stringify(proxyInfo)}`);
+
     log.info(`enqueueing new URLs`);
 
     await page.waitForSelector(productListItemSelector);

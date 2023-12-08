@@ -26,3 +26,6 @@ def val(value, default_value="#not-found#"):
         return -99
     return value
 
+def readable_product_type(product_type):
+    if product_type is not None and product_type != "":
+        return product_type.replace("_", " ").capitalize()

@@ -8,12 +8,52 @@ import { proxies } from '../proxy-list.js';
 
 configDotenv()
 
-const startUrls = ['https://groceries.asda.com/search/meat-poultry-fish/products?page=1'];
+const startContext = {
+    MEAT: [
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/chicken-turkey/1215135760597-910000975206-910000975462",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/beef/1215135760597-910000975206-910000975528",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/bacon-sausages-gammon/1215135760597-910000975206-910000975529",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/pork/1215135760597-910000975206-910000975676",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/lamb/1215135760597-910000975206-910000975607",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/extra-special-meat-fish/1215135760597-910000975206-1215685061664",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/duck-game-venison/1215135760597-910000975206-1215661251845",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/simple-to-cook/1215135760597-910000975206-1215285178174",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/slow-cooked/1215135760597-910000975206-1215686351330",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/liver/1215135760597-910000975206-1215423349781",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/meat-poultry/microwavable-snacks/1215135760597-910000975206-1215686011630",
 
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/extra-special-fish/1215135760597-1215337195095-1215685901158",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/breaded-fish-fishcakes/1215135760597-1215337195095-1215685462261",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/salmon-tuna-trout/1215135760597-1215337195095-1215685901159",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/smoked-salmon/1215135760597-1215337195095-1215685901160",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/cod-haddock-white-fish/1215135760597-1215337195095-1215685901161",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/cooked-smoked-fillets/1215135760597-1215337195095-1215685901162",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/seafood-sticks-cocktails/1215135760597-1215337195095-1215685901163",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/prawns-mussels/1215135760597-1215337195095-1215685901164",
+        "https://groceries.asda.com/aisle/fresh-food-bakery/fish-seafood/view-all-fish/1215135760597-1215337195095-1215685901166",
+
+        "https://groceries.asda.com/dept/meat-poultry-fish/cooked-meat/1215135760597-1215661243132",
+    ],
+    MEAT_ALTERNATIVE: [
+    ],
+    DIARY: [
+    
+    ],
+    DIARY_ALTERNATIVE: [
+
+    ]
+}
+
+const startUrls = [].concat(startContext.MEAT)
+
+// [
+//     "https://groceries.asda.com/search/meat-poultry-fish/products?page=5",
+//     // 'https://groceries.asda.com/search/plant-based/products?cmpid=ahc-_-ghs-_-asdacom-_-hp-_-search-plant-based&page=3',
+// ]
 const proxtUrlList = [
-    // env.IP_ROYAL_PROXY_URL,
+    env.IP_ROYAL_PROXY_URL,
     // ...proxies.free_proxy_list,
-    ...proxies.proxyscrape_list,
+    // ...proxies.proxyscrape_free_uk_list,
 ]
 
 const crawler = new PuppeteerCrawler({
@@ -27,9 +67,10 @@ const crawler = new PuppeteerCrawler({
 
     // requests
     requestHandler: router,
-    // maxRequestsPerCrawl: 20,
+    maxRequestsPerCrawl: 600,
     retryOnBlocked: true,
     maxRequestRetries: 2,
+    requestHandlerTimeoutSecs: 30,
 
     // browser 
     headless: false,
@@ -77,7 +118,7 @@ const crawler = new PuppeteerCrawler({
     },
 });
 
- 
+
 await crawler.run(startUrls);
 
 const exportFilePath = 'storage/exports.json'

@@ -25,26 +25,37 @@ def read_json_files(data_dir):
     return data
 
 def push_products():
-    load_dotenv()
-    connect_to_db()
     get_db()
 
-    data = read_json_files(
-        file_dir
-        )
+    data = read_json_files(file_dir)
+
+    products_dict = {}
+
+    # Making a dictionary of products while removing duplicates
+    for product in data:
+        products_dict[product['product_id']] = product
+
+    print(f"len(products_dict): {len(products_dict)}")
+
+    # Query for products with IDs in list
+    existing_products = Product.objects(product_id__in=products_dict.keys())
+
+    # Get list of existing IDs
+    existing_ids = [p.product_id for p in existing_products]
+    print(f"Matched existing product id count: {len(existing_ids)}")
+
+    # New products count
+    new_products_count = len(products_dict.keys()) - len(existing_ids)
 
     batch_size = 100
     products = []
-    pushed_product_id_list = []
 
-    for product_data in data:
+    for product_data in products_dict.values():
         product = Product(**product_data)
         product_id = product_data['product_id']
-        new_product = False if Product.objects(product_id=product_id).first() else True
 
-        if product_id not in pushed_product_id_list and new_product:
+        if product_id not in existing_ids:
             products.append(product)
-            pushed_product_id_list.append(product_id)
 
         if len(products) >= batch_size:
             try:
@@ -55,5 +66,7 @@ def push_products():
 
     if products:
         Product.objects.insert(products, load_bulk=False)
+
+    print(f"Inserted {new_products_count} products.")
 
 

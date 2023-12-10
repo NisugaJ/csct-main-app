@@ -6,32 +6,32 @@ from mongoengine import get_db
 from app.db.connect import connect_to_db
 from app.models.product.Product import Product
 
-load_dotenv()
-connect_to_db()
-db = get_db()
+def update_products():
 
-collection = db['product']
+    db = get_db()
 
-# Define the pattern for the regex
-regex_pattern = re.compile(r'^\/.*')
+    collection = db['product']
 
-# Define the prefix to be added
-prefix_to_add = 'https://groceries.asda.com'
+    # Define the pattern for the regex
+    regex_pattern = re.compile(r'^\/.*')
 
-# Filter documents with the specified regex pattern
-filter_criteria = {'product_link': {'$regex': regex_pattern}}
+    # Define the prefix to be added
+    prefix_to_add = 'https://groceries.asda.com'
 
-for product in Product.objects().aggregate([{"$filter":filter_criteria}]):
-    print(product)
+    # Filter documents with the specified regex pattern
+    filter_criteria = {'product_link': {'$regex': regex_pattern}}
 
-    product['product_link'] = prefix_to_add + product['product_link']
+    updated_count = 0
 
-    # Update documents by adding a prefix
-    update_operation = {'$set': {'product_link': product["product_link"]}}
+    for product in Product.objects().aggregate([{"$filter": filter_criteria}]):
+        print(product)
 
-    # Use update_many to apply the update to multiple documents
-    result = collection.update_one( {'product_id': product['product_id']}, update_operation)
+        product['product_link'] = prefix_to_add + product['product_link']
 
-    # Print the update result
-    print('Documents matched:', result.matched_count)
-    print('Documents modified:', result.modified_count)
+        # Update documents by adding a prefix
+        update_operation = {'$set': {'product_link': product["product_link"]}}
+
+        # Use update_many to apply the update to multiple documents
+        result = collection.update_one( {'product_id': product['product_id']}, update_operation)
+
+    print('Documents updated:', updated_count)

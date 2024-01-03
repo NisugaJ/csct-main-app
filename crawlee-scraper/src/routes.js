@@ -5,9 +5,9 @@ import { supermarketPrefix, SupermarketType } from './utils/supermarkets.js'
 
 export const router = createPuppeteerRouter()
 router.use(async ({ log, request, proxyInfo, session }) => {
+    log.info(`Proxy: ${proxyInfo.hostname}, Session: ${session.id}`)
     log.info(`router: ${request.label}`);
-    log.info(`proxy: ${JSON.stringify(proxyInfo)}`);
-    log.info(`session: ${session.id}`);
+    log.info(`Current URL: ${request.url}`);
 })
 
 const productListItemSelector = "ul.co-product-list__main-cntr > li.co-item > div > div.co-product div.co-item__col2 > div.co-item__title-container > .co-product__title > .co-product__anchor"
@@ -38,12 +38,12 @@ router.addHandler('detail', async ({ request, page, pushData, log }) => {
     const productItem = {}
 
     productItem.product_url = request.loadedUrl
-    productItem.product_type = "MEAT"
+    // productItem.product_type = "DAIRY_ALTERNATIVE"
 
     await page.waitForSelector('.pdp-main-details');
 
     productItem.product_id = supermarketPrefix(SupermarketType.ASDA) + request.loadedUrl.split('/').pop();
-    productItem.product_name = await page.$eval(".pdp-main-details > div[data-auto-id='titleRating'] > h1", el => el.textContent);
+    productItem.product_name = await page.$eval(".pdp-main-details > div[data-auto-id='titleRating'] > h1", el => el.textContent.replace("ASDA",""));
 
     const alreadyAvailable = await productExists(productItem.product_id);
     if(alreadyAvailable){
@@ -51,6 +51,11 @@ router.addHandler('detail', async ({ request, page, pushData, log }) => {
         log.error(errorMessage)
         await page.close();
         return
+    }
+
+    const imageSelector = ".asda-image-zoom__zoomed-image-container > picture > img"
+    if((await page.$(imageSelector))){
+        productItem.product_image_url = await page.$eval(imageSelector, el => el.getAttribute("src"))
     }
 
     const sellingPriceSelector = ".pdp-main-details__price-container > strong"
@@ -66,6 +71,17 @@ router.addHandler('detail', async ({ request, page, pushData, log }) => {
     }
     if((await page.$(uomPriceSelector))){
         productItem.price.raw_uom = await page.$eval(uomPriceSelector, el => el.textContent.trim())
+    }
+
+    const lifeStyleSelector = ".pdp-description-reviews__product-details-cntr"
+    if((await page.$(lifeStyleSelector))){
+        productItem.ingredients = (await page.$$eval(ingredientsSelector, elements => elements.map(el => {
+            let ingredientsText = null
+            if (el.children[0].innerHTML.toLowerCase().includes("life") && el.children[1].innerHTML.length > 0) {
+                ingredientsText = el.children[1].innerHTML.trim().replace(/<\/?(span|strong)>/g, '')
+            }
+            return ingredientsText
+        }))).filter(el => el != null)[0];
     }
 
     const ingredientsSelector = ".pdp-description-reviews__product-details-cntr"

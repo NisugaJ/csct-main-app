@@ -35,25 +35,29 @@ const startContext = {
         "https://groceries.asda.com/dept/meat-poultry-fish/cooked-meat/1215135760597-1215661243132",
     ],
     MEAT_ALTERNATIVE: [
-    ],
-    DIARY: [
-    
-    ],
-    DIARY_ALTERNATIVE: [
 
+    ],
+    DAIRY: [
+        "https://groceries.asda.com/aisle/drinks/milk-yogurt-drinks/milk-drinks/1215135760614-1215685911674-1215685911675"
+    ],
+    DAIRY_ALTERNATIVE: [
+        "https://groceries.asda.com/shelf/dietary-lifestyle/free-from/dairy-free-food-drink/view-all-dairy-free-food-drink/1215686355606-1215686355607-1215686355615-1215686355620?sort=price%3Aasc",
+        "https://groceries.asda.com/shelf/dietary-lifestyle/free-from/milk-free-food-drink/view-all-milk-free-food-drink/1215686355606-1215686355607-1215686355627-1215686355632"
     ]
 }
 
-const startUrls = [].concat(startContext.MEAT)
+const startUrls = [].concat(startContext.DAIRY)
 
 // [
 //     "https://groceries.asda.com/search/meat-poultry-fish/products?page=5",
 //     // 'https://groceries.asda.com/search/plant-based/products?cmpid=ahc-_-ghs-_-asdacom-_-hp-_-search-plant-based&page=3',
 // ]
 const proxtUrlList = [
-    env.IP_ROYAL_PROXY_URL,
+    // env.IP_ROYAL_PROXY_URL,
     // ...proxies.free_proxy_list,
-    // ...proxies.proxyscrape_free_uk_list,
+    // ...proxies.free_proxy_list,
+    // ...proxies.proxyscrape_list,
+    // ...proxies.proxyscrape_free_uk_list
 ]
 
 const crawler = new PuppeteerCrawler({
@@ -67,9 +71,9 @@ const crawler = new PuppeteerCrawler({
 
     // requests
     requestHandler: router,
-    maxRequestsPerCrawl: 600,
+    maxRequestsPerCrawl: 300,
     retryOnBlocked: true,
-    maxRequestRetries: 2,
+    maxRequestRetries: 3,
     requestHandlerTimeoutSecs: 30,
 
     // browser 

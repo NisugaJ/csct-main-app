@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import APIRouter
-from pydantic import BaseModel
+from pydantic import BaseModel, JsonValue
 from starlette.staticfiles import StaticFiles
 
 from product_analyzer.components.query_model import QueryModel
@@ -13,7 +13,8 @@ app_router = APIRouter()
 app_router.mount("/public", StaticFiles(directory=f"{Path.cwd()}/app/public"), name="static")
 
 class Input(BaseModel):
-    input: str
+    q: str
+    filter: JsonValue
 
 class Output(BaseModel):
     output: str
@@ -25,8 +26,8 @@ def healthcheck():
 
 
 @app_router.post("/query")
-async def get_answers(query: Input):
-    query_text = query.q
+async def get_answers(body: Input):
+    query_text = body.q
     if query_text == "" or query_text is None:
         return "Please enter a query"
 
@@ -35,8 +36,9 @@ async def get_answers(query: Input):
         model.connect_vector_store()
 
         results = model.vector_store.similarity_search(
-            query=query,
-            k=5
+            query=body.q,
+            k=5,
+            filter=body.filter_json
         )
 
         return results

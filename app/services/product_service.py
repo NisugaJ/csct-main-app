@@ -1,14 +1,21 @@
-from app.models.product.Product import Product
+from app.models.product.Product import Product, ProductType
 from utils.utils import readable_product_type
 
-def make_passages():
-    products = Product.objects()
+def make_passage(product: Product):
+    nutrients = [f"{nutrient.name_raw}: {nutrient.portion_raw}" for nutrient in product.nutrients]
 
-    passages = []
+    passage = (f"The product {product.product_name} is a {ProductType(product.product_type).value.replace('_', '-').lower()} product and "
+               f"ingredients are {product.ingredients}. "
+               f"product. View the product at {product.product_url}. It has a customer rating of "
+               f"{product.customer_rating}. "
+               f"The selling price is £{product.price.selling_price}. "
+               f"The selling weight is {product.price.raw_weight}. "
+               f"It has below nutrients.\n "
+               )
 
-    for product in products:
-        passages.append(
-            f"The price of {product.product_name} is {product.price.raw_selling_price} and ingredients are {product.ingredients}.It is a {readable_product_type(product.product_type.value)} product. View the product at {product.product_url}. It has a customer rating of {product.customer_rating}.\n"
-        )
+    for nutri in nutrients:
+        passage += f"{nutri} \n"
 
-    return passages
+    print(passage)
+
+    return passage

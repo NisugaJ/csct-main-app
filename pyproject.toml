@@ -35,6 +35,8 @@ psycopg2-binary = "^2.9.9"
 codetiming = "^1.4.0"
 chromadb = "^0.4.22"
 streamlit = "^1.29.0"
+pandas = "^2.1.4"
+streamlit-aggrid = "^0.3.4.post3"
 
 [build-system]
 requires = ["poetry-core"]

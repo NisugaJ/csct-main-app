@@ -27,6 +27,14 @@ faiss-cpu = "^1.7.4"
 sentence-transformers = "^2.2.2"
 numpy = "^1.26.2"
 price-parser = "^0.3.4"
+openai = "^1.6.1"
+langchainhub = "^0.1.14"
+tiktoken = "^0.5.2"
+pgvector = "^0.2.4"
+psycopg2-binary = "^2.9.9"
+codetiming = "^1.4.0"
+chromadb = "^0.4.22"
+streamlit = "^1.29.0"
 
 [build-system]
 requires = ["poetry-core"]

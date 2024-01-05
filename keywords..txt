@@ -1,0 +1,77 @@
+{product_name:1, product_type:1, _id:0}
+
+vegan|plant-based|plant based|vegetarian|cruelty-free|animal-free|plant-powered|no animal ingredients|vegetable-based|herbivore-friendly|free from animal by-products|ethical eating|whole foods|non-gmo|plant-derived|plant-forward|plant-centric|cruelty-free|no animal testing|plant extracts|non-animal
+
+vegan,1
+plant-based,1
+plant based,1
+vegetarian,1
+cruelty-free,1
+animal-free,1
+plant-powered,1
+no animal ingredients,1
+vegetable-based,1
+herbivore-friendly,1
+ethical eating,1
+whole foods,1
+plant-derived,1
+plant-forward,1
+plant-centric,1
+cruelty-free,1
+plant extracts,1
+non-animal,1
+
+
+{"product_name": /(beef|chicken|pork|lamb|seafood|carmine|salmon|royal jelly|ostrich','tallow|Faggots|potted meat|organ meat|broth|sausages|smoked haddock|cod','bangers|animal fat|beef|suet|stock|roe|lobster|plaice|elk|veal','haggis|wild boar|smoked mackerel|clams|intestines|cochineal|sole','Scotch egg|alligator|kidney|pies|cured meat|catfish|Bury black pudding','goose|liver|smoked salmon|lamb|black pudding|meat extract|haddock','bone marrow|bison|collagen|gelatin|mussels|fish roe|pork|honey','kippers|kangaroo|tripe|game bird|swordfish|duck|pheasant|jerky|offal','caviar|rennet|goat|white pudding|trout|bacon|chicken|partridge','biltong|pepperoni|whey|ham|cumberland sausage|meat by-products|grouse','shrimp|fish|tilapia|turkey|shellfish|raccoon|corned beef|venison','rabbit|isinglass|albumen|pasties|beef dripping|crab|sausage','Lincolnshire sausage|salami|heart|quail|hare|mutton|smoked meat','smoked trout|game meat|wild game|meatballs|sardines|tuna|anchovies|lard)/i}
+
+{"product_name": /(?:(?=.*cake|.*cookie)(?!=.*vegan|.*plant-based|.*plant based|.*vegetarian|.*cruelty-free|.*animal-free|.*plant-powered|.*no animal ingredients|.*vegetable-based|.*herbivore-friendly|.*free from animal by-products|.*ethical eating|.*whole foods|.*non-gmo|.*plant-derived|.*plant-forward|.*plant-centric|.*cruelty-free|.*no animal testing|.*plant extracts|.*non-animal sourced additives))^.*$/i}
+
+{"product_name": { "$regex": "chicken", "$options": "i" }, "product_name": { "$not": { "$regex": "vegan", "$options": "i" } }}
+
+
+soy milk,1
+almond milk,1
+coconut milk,1
+vegan cheese,1
+Plant-Based,1
+Dairy-Free,1
+Vegan,1
+Vegetarian,1
+Alternative,1
+Substitute,1
+Non-Dairy,1
+Milk Alternative,1
+Cheese Alternative,1
+Butter Substitute,1
+Yogurt Alternative,1
+Cream Substitute,1
+Ice Cream Alternative,1
+Non-Dairy Milk,1
+Non-Dairy Cheese,1
+Non-Dairy Butter,1
+Non-Dairy Yogurt,1
+Non-Dairy Cream,1
+Non-Dairy Ice Cream,1
+Vegan Milk,1
+Vegan Cheese,1
+Vegan Butter,1
+Vegan Yogurt,1
+Vegan Cream,1
+Vegan Ice Cream,1
+Plant Milk,1
+Nut Milk,1
+Soy Milk,1
+Almond Milk,1
+Coconut Milk,1
+Rice Milk,1
+Oat Milk,1
+Cashew Milk,1
+Hemp Milk,1
+Flax Milk,1
+Pea Milk,1
+Quinoa Milk,1
+Sunflower Milk,1
+Dairy Alternative,1
+Non-Dairy Option,1
+Vegan Option,1
+Plant-Based Option,1

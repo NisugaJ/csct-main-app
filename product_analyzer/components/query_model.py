@@ -80,8 +80,8 @@ class QueryModel:
             raise ValueError("No documents to split")
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=1000,
-            chunk_overlap=200,
+            chunk_size=256,
+            chunk_overlap=20
         )
         self.split_docs = text_splitter.split_documents(self.docs)
 

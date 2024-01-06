@@ -25,7 +25,7 @@ def format_docs(docs):
 
 
 class QueryModel:
-    DEFAULT_COLLECTION_NAME: str = "products_v2"
+    DEFAULT_COLLECTION_NAME: str = os.environ.get("DEFAULT_COLLECTION_NAME")
 
     def __init__(self, db=None, pre_delete_collection: bool = False):
         self.__hf_key = os.environ.get(

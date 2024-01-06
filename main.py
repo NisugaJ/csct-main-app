@@ -1,8 +1,7 @@
+import uvicorn
 from dotenv import load_dotenv
 load_dotenv()
 
-
-from streamlit_app import start_streamlit_app
 
 import multiprocessing
 import os
@@ -56,8 +55,6 @@ if __name__ == '__main__':
     if os.getenv("ADD_DATA_TO_VECTOR_STORE") == "True":
         prepare_vector_store()
 
-    start_streamlit_app()
-
     # Run the app
-    # uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
+    uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")
 

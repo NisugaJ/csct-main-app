@@ -15,6 +15,7 @@ from langchain_core.vectorstores import VectorStore
 from app.models.product.Product import Product
 from product_analyzer.utils.db import get_db
 from product_analyzer.utils.document import get_doc_from_raw
+from utils.files import get_files_in_dir
 
 
 def format_docs(docs):
@@ -25,7 +26,7 @@ def format_docs(docs):
 
 
 class QueryModel:
-    DEFAULT_COLLECTION_NAME: str = os.environ.get("DEFAULT_COLLECTION_NAME")
+    DEFAULT_COLLECTION_NAME: str = os.environ.get("SEARCH_COLLECTION_NAME")
 
     def __init__(self, db=None, pre_delete_collection: bool = False):
         self.__hf_key = os.environ.get(
@@ -41,12 +42,6 @@ class QueryModel:
         self.embedding_function = None
         self.collection = None
         self.vector_store: VectorStore = None
-
-        self.prompt = None
-        self.llm = None
-
-        self.retriever = None
-        self.rag_pipeline = None
 
         if self.chroma_db is None:
             self.connect_chroma_db()
@@ -70,10 +65,8 @@ class QueryModel:
 
                 for raw_doc in raw_docs:
                     raw_doc.pop("_id")
-                    doc = get_doc_from_raw(Product(**raw_doc))
+                    doc = get_doc_from_raw(Product(**raw_doc), "search")
                     self.docs.append(doc)
-
-                print(self.docs[0])
 
     def run_docs_splitter(self):
         if not len(self.docs) > 0:
@@ -128,11 +121,14 @@ class QueryModel:
 
     def build_vector_store(self, collection_name=DEFAULT_COLLECTION_NAME):
         self.vector_store = Chroma.from_documents(
-            documents=self.split_docs,
-            ids=[f"id_{i}" for i in range(len(self.split_docs))],
+            documents=self.docs,
+            ids=[f"id_{i}" for i in range(len(self.docs))],
             embedding=OpenAIEmbeddings(),
             client=self.chroma_db,
-            collection_name=collection_name
+            collection_name=collection_name,
+            collection_metadata={
+                "hnsw:space": "cosine"
+            }
         )
 
     def connect_vector_store(self):
@@ -142,24 +138,9 @@ class QueryModel:
             collection_name=self.DEFAULT_COLLECTION_NAME
         )
 
-
-    def build_pipeline(self):
-
-        pass
-
-    def get_response(self, query):
-        return self.rag_pipeline.invoke(query)
-
     def add_json_docs_to_vector_store(self, relative_data_dir="./data"):
 
-        all_files = []
-
-        for filename in os.listdir(relative_data_dir):
-            file = f"{relative_data_dir}/{filename}"
-            _, file_extension = os.path.splitext(file)
-            if file_extension == ".json":
-                all_files.append(file)
+        all_files = get_files_in_dir(relative_data_dir, ".json")
 
         self.load_json_docs(all_files)
-        self.run_docs_splitter()
         self.build_vector_store()

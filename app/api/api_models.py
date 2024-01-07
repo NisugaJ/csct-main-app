@@ -4,7 +4,7 @@ class Query(BaseModel):
     q: str
 
 class SearchInput(Query):
-    filter: dict
+    filter: dict or None
 
 class Output(BaseModel):
     output: str

@@ -5,7 +5,10 @@ from rag.components.rag import RAG_Model
 def get_rag_pipeline_from_model():
 
     # Initialize a RAG_Model instance with the chroma db connection and embedding function
-    rag = RAG_Model(db_conn=get_db())
+    rag = RAG_Model(db=get_db())
+
+    # Connect to the vector store
+    rag.connect_vector_store()
 
     # Build the RAG pipeline
     rag.build_pipeline()

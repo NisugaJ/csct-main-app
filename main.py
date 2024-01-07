@@ -14,7 +14,7 @@ from fastapi import FastAPI
 
 from app.db.connect import connect_to_db
 from app.helpers.initialize import initialize
-from product_analyzer.utils.vector_store import prepare_vector_store
+from product_analyzer.utils.vector_store import prepare_vector_stores
 from scraper_script import start_scraper
 
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         print("Started supermarket scraper as a daemon process...")
 
     if os.getenv("ADD_DATA_TO_VECTOR_STORE") == "True":
-        prepare_vector_store()
+        prepare_vector_stores()
 
     # Run the app
     uvicorn.run("main:app", reload=True, host="0.0.0.0", port=5842, log_level="info")

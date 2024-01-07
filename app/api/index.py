@@ -40,7 +40,7 @@ async def get_answers(body: SearchInput):
         results = model.vector_store.similarity_search(
             query=body.q,
             k=10,
-            filter=q_filter
+            filter=q_filter,
         )
 
         return results

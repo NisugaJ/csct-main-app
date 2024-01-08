@@ -1,4 +1,7 @@
 from dotenv import load_dotenv
+
+from utils.useful_scripts.extract_nutrient_raw_names import extract_nutrient_raw_names
+
 load_dotenv()
 
 from utils.useful_scripts.embeddings import find_embeddings_by_product_id, delete_all_collections
@@ -31,6 +34,8 @@ from utils.useful_scripts.chroma import chroma_run
 
 # chroma_run()
 
-find_embeddings_by_product_id("ASDA_910002551988")
+# find_embeddings_by_product_id("ASDA_910002551988")
 
 # delete_all_collections()
+
+extract_nutrient_raw_names()

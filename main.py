@@ -1,8 +1,10 @@
-import uvicorn
 from dotenv import load_dotenv
 load_dotenv()
+from app.db.connect import connect_to_db
+# Connect to the Mongo database
+connect_to_db()
 
-
+import uvicorn
 import multiprocessing
 import os
 
@@ -12,7 +14,7 @@ from app.api.index import app_router
 
 from fastapi import FastAPI
 
-from app.db.connect import connect_to_db
+
 from app.helpers.initialize import initialize
 from product_analyzer.utils.vector_store import prepare_vector_stores
 from scraper_script import start_scraper
@@ -41,11 +43,9 @@ def read_root():
 
 
 if __name__ == '__main__':
-    # Connect to the Mongo database
-    connect_to_db()
 
     # Publish the schema
-    initialize()
+    # initialize()
 
     if os.getenv("RUN_SUPERMARKET_SCRAPER") == "True":
         multiprocessing.set_start_method("spawn")

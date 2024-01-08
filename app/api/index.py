@@ -3,17 +3,21 @@ from pathlib import Path
 from typing import AsyncIterable
 
 from fastapi import APIRouter
-from pydantic import BaseModel
 from starlette.responses import StreamingResponse
 from starlette.staticfiles import StaticFiles
 
 from app.api.api_models import SearchInput, Query
+from app.api.routes.products import products_router
+from app.models.product.Product import Product
 from product_analyzer.components.query_model import QueryModel
 from product_analyzer.functions.query_functions import get_query_model
 from rag.components.rag import RAG_Model
 from rag.functions.rag_pipeline import get_rag_pipeline_from_model
 
 app_router = APIRouter()
+
+app_router.include_router(products_router)
+
 
 # Public folder
 app_router.mount("/public", StaticFiles(directory=f"{Path.cwd()}/app/public"), name="static")
@@ -43,7 +47,17 @@ async def get_answers(body: SearchInput):
             filter=q_filter,
         )
 
-        return results
+        response = []
+        for result in results:
+            product_item = {"description": result.page_content}
+
+            for key in result.metadata.keys():
+                product_item[key] = result.metadata[key]
+
+            response.append(product_item)
+
+        print(response)
+        return response
 
 
 @app_router.post("/query")
@@ -90,3 +104,9 @@ async def get_answers(query: Query):
             send_token(content=query_text),
             media_type="text/event-stream"
         )
+
+
+@app_router.get("/all-prods")
+def get_all_products():
+
+    return Product.objects()

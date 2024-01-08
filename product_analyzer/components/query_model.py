@@ -2,7 +2,7 @@ import json
 import os
 from typing import List, Iterable
 
-from chromadb import HttpClient, Documents
+from chromadb import  Documents, PersistentClient
 from chromadb.utils import embedding_functions
 from chromadb.utils.embedding_functions import HuggingFaceEmbeddingFunction
 
@@ -38,7 +38,7 @@ class QueryModel:
 
         self.docs: Documents = []
         self.split_docs: Iterable(Document) = None
-        self.chroma_db: HttpClient = db
+        self.chroma_db: PersistentClient = db
         self.embedding_function = None
         self.collection = None
         self.vector_store: VectorStore = None

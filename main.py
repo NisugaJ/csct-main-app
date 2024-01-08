@@ -17,7 +17,7 @@ from fastapi import FastAPI
 
 from app.helpers.initialize import initialize
 from product_analyzer.utils.vector_store import prepare_vector_stores
-from scraper_script import start_scraper
+# from scraper_script import start_scraper
 
 
 app = FastAPI()
@@ -47,10 +47,10 @@ if __name__ == '__main__':
     # Publish the schema
     # initialize()
 
-    if os.getenv("RUN_SUPERMARKET_SCRAPER") == "True":
-        multiprocessing.set_start_method("spawn")
-        multiprocessing.Process(target=start_scraper).start()
-        print("Started supermarket scraper as a daemon process...")
+    # if os.getenv("RUN_SUPERMARKET_SCRAPER") == "True":
+    #     multiprocessing.set_start_method("spawn")
+    #     multiprocessing.Process(target=start_scraper).start()
+    #     print("Started supermarket scraper as a daemon process...")
 
     if os.getenv("ADD_DATA_TO_VECTOR_STORE") == "True":
         prepare_vector_stores()

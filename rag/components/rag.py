@@ -2,7 +2,7 @@ import json
 import os
 from typing import List
 
-from chromadb import HttpClient
+from chromadb import PersistentClient
 from codetiming import Timer
 
 from langchain.callbacks import AsyncIteratorCallbackHandler
@@ -31,7 +31,7 @@ class RAG_Model:
 
     def __init__(
         self,
-        db: HttpClient or None = None,
+        db: PersistentClient or None = None,
         pre_delete_collection: bool = False
     ):
         self.__openai_key = os.environ.get("OPENAI_API_KEY")
@@ -40,7 +40,7 @@ class RAG_Model:
         self.split_docs = []
         self.embeddings_model = OpenAIEmbeddings()
         self.collection = None
-        self.chroma_db: HttpClient = db
+        self.chroma_db: PersistentClient = db
         self.vector_store: Chroma = None
 
         self.prompt = None

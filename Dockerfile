@@ -19,9 +19,10 @@ RUN python${PYTHON_VERSION} -m pip install --upgrade pip
 RUN pip --version
 
 # installing dependencies to run browsers.
-RUN pip install poetry==1.7.0 scrapy==2.11.0 scrapy-playwright==0.0.33
-RUN playwright install
-RUN playwright install-deps
+RUN pip install poetry==1.7.0
+#RUN pip install scrapy==2.11.0 scrapy-playwright==0.0.33
+#RUN playwright install
+#RUN playwright install-deps
 
 WORKDIR /main-app
 

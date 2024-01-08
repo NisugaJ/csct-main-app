@@ -1,5 +1,6 @@
 import os
 
+import chromadb
 from chromadb import HttpClient, Settings
 from codetiming import Timer
 
@@ -8,11 +9,7 @@ settings = Settings(chroma_api_impl="chromadb.api.fastapi.FastAPI", allow_reset=
 host = os.getenv("chroma_server_host")
 port = os.getenv("chroma_server_http_port")
 
-chroma_db = HttpClient(
-    host=host,
-    port=port,
-    settings=settings
-)
+chroma_db = chromadb.PersistentClient(path="/home/csct-admin/chromadb/db")
 
 print(f"ChromaDB Healthcheck: {chroma_db.heartbeat()}")  # this should work with or without authentication - it is a public endpoint
 print(f"Chroma_db version: {chroma_db.get_version()}")  # this should work with or without authentication - it is a public endpoint

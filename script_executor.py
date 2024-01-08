@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 
-from utils.useful_scripts.extract_nutrient_raw_names import extract_nutrient_raw_names
+from utils.useful_scripts.extract_nutrient_raw_names import extract_nutrient_raw_names, format_nutrient_raw_names
 
 load_dotenv()
 
@@ -38,4 +38,6 @@ from utils.useful_scripts.chroma import chroma_run
 
 # delete_all_collections()
 
-extract_nutrient_raw_names()
+# extract_nutrient_raw_names()
+
+# format_nutrient_raw_names()

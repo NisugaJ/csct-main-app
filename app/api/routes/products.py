@@ -32,7 +32,9 @@ def get_all_products(type: Union[str, None] = None):
                 "product_name": 1,
                 "product_type": 1,
             },
-            "$filter": filter_
+        },
+        {
+            "$match": filter_
         }
     ])
 

@@ -14,8 +14,9 @@ def get_all_products():
     products = Product.objects().aggregate([
         {
             "$project": {
+                "product_id": 1,
                 "product_name": 1,
-                "product_id": 1
+                "product_type": 1,
             }
         }
     ])
@@ -24,7 +25,8 @@ def get_all_products():
     for product in products:
         response.append({
             "product_id": product['product_id'],
-            "product_name": product['product_name']
+            "product_name": product['product_name'],
+            "product_type": product['product_type']
         })
 
     return response

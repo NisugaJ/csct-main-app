@@ -14,9 +14,7 @@ from utils.supermarkets import UKSupermarkets, supermarket_prefix
 from utils.utils import get_a_unique_image_name, val
 
 
-class AsdaSpider(
-    scrapy.Spider
-    ):
+class AsdaSpider(scrapy.Spider):
     name = "asda-spider"
 
     asda_base_url = "https://groceries.asda.com"

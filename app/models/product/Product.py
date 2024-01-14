@@ -26,41 +26,20 @@ class ProductType(
     PLANT_BASED = "PLANT_BASED"
 
 
-class Product(
-    Document
-):
-    product_id = StringField(
-        required=True,
-        unique=True
-    )
-    product_name = StringField(
-        required=True
-    )
-    price = EmbeddedDocumentField(
-        document_type=PriceAndWeight
-    )
-    ingredients = StringField()
-    nutrients = EmbeddedDocumentListField(
-        document_type=Nutrient
-    )
-    customer_rating = FloatField()
-    product_url = StringField(
-        required=True,
-        unique=True
-    )
-    product_image_url = StringField()
-    product_type = EnumField(
-        ProductType
-    )
-    counterpart_products = ListField(
-        ReferenceField(
-            'self'
-        )
-    )
+class Product(Document):
 
-    created_at = DateTimeField(
-        default=datetime.now
-    )
+    product_id = StringField(required=True, unique=True)
+    product_name = StringField(required=True)
+    price = EmbeddedDocumentField(document_type=PriceAndWeight)
+    ingredients = StringField()
+    nutrients = EmbeddedDocumentListField(document_type=Nutrient)
+    customer_rating = FloatField()
+    product_url = StringField(required=True, unique=True)
+    product_image_url = StringField()
+    product_type = EnumField(ProductType)
+    counterpart_products = ListField(ReferenceField('self'))
+
+    created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField()
 
 #

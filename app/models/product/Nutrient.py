@@ -9,7 +9,6 @@ class NutrientType(Enum):
     OTHER = "OTHER"
 
 
-
 class Nutrient(EmbeddedDocument):
 
     # e.g: carbohydrate
@@ -20,7 +19,7 @@ class Nutrient(EmbeddedDocument):
     value = FloatField(required=False)  # e.g: 40
     value_unit = StringField(required=False)  # e.g: mg
 
-    # e.g: per 100 grams
+    # one portion = 100g or 100ml
     portion = FloatField(required=False)  # e.g: 100
     portion_raw = StringField(required=True)  # e.g: '100g'
     portion_unit = StringField(required=False)  # e.g: g
